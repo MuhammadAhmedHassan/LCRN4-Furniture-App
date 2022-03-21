@@ -3,7 +3,7 @@ import {Text, useColorScheme, LogBox} from 'react-native';
 import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {RootStackParamList} from './types';
-import {Home} from './screens';
+import {Home, ItemDetails} from './screens';
 
 const theme = {
   ...DefaultTheme,
@@ -28,7 +28,7 @@ const App = () => {
         screenOptions={{headerShown: false}}
         initialRouteName="Home">
         <Stack.Screen name="Home" component={Home} />
-        <Stack.Screen name="ItemDetail" component={() => <Text>Hello</Text>} />
+        <Stack.Screen name="ItemDetail" component={ItemDetails} />
       </Stack.Navigator>
     </NavigationContainer>
   );

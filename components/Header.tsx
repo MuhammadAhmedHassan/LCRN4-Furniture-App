@@ -1,4 +1,5 @@
 import {
+  ColorValue,
   Image,
   ImageSourcePropType,
   StyleSheet,
@@ -10,15 +11,16 @@ import {COLORS, icons, SIZES} from '../constants';
 
 interface IProps {
   searchIcon?: boolean;
+  iconsColor?: ColorValue;
 }
 
-const Header = ({searchIcon}: IProps) => {
+const Header = ({searchIcon, iconsColor}: IProps) => {
   const getIcon = (icon: ImageSourcePropType) => (
     <TouchableOpacity>
       <Image
         source={icon}
         resizeMode="cover"
-        style={{height: 30, width: 30, tintColor: COLORS.black}}
+        style={{height: 30, width: 30, tintColor: iconsColor ?? COLORS.black}}
       />
     </TouchableOpacity>
   );
