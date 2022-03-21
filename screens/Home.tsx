@@ -16,6 +16,7 @@ import {ScrollView} from 'react-native-gesture-handler';
 const Home = () => {
   const [data, setData] = useState(dummyData.tabList);
   const [selectedTab, setSelectedTab] = useState(data[0].id);
+  const [selectedCategory, setSelectedCategory] = useState(data[0].productList);
 
   return (
     <ScrollView
@@ -37,7 +38,12 @@ const Home = () => {
               <TabItem
                 {...props}
                 selectedTab={selectedTab}
-                onPress={(id: number) => setSelectedTab(id)}
+                onPress={(id: number) => {
+                  setSelectedTab(id);
+                  setSelectedCategory(
+                    data.find(item => item.id === id)!.productList,
+                  );
+                }}
               />
             )}
           />
@@ -49,18 +55,13 @@ const Home = () => {
             horizontal
             showsHorizontalScrollIndicator={false}
             keyExtractor={item => item.productId.toString()}
-            data={data.find(item => item.id === selectedTab)!.productList}
+            data={selectedCategory}
             renderItem={props => (
               <ScrollableCardsItem
                 {...props}
                 selectedTab={selectedTab}
                 onPress={(id: number) => setSelectedTab(id)}
-                lastItem={
-                  props.index ===
-                  data.find(item => item.id === selectedTab)!.productList
-                    .length -
-                    1
-                }
+                lastItem={props.index === selectedCategory.length - 1}
               />
             )}
           />
