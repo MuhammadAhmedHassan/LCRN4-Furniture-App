@@ -19,7 +19,6 @@ const ItemDetails = ({}: IProps) => {
   const item =
     useRoute<RouteProp<RootStackParamList, 'ItemDetail'>>().params.item;
 
-  console.log(item);
   return (
     <ImageBackground
       source={item.image}
