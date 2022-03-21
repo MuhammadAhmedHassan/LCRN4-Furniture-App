@@ -2,7 +2,6 @@ import {
   FlatList,
   Image,
   ImageBackground,
-  ImageSourcePropType,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -12,11 +11,14 @@ import React, {useState} from 'react';
 import {Header} from '../components';
 import {COLORS, dummyData, FONTS, icons, images, SIZES} from '../constants';
 import {ScrollView} from 'react-native-gesture-handler';
+import {HomeProductType, HomeScreenProp} from '../types';
+import {useNavigation} from '@react-navigation/native';
 
 const Home = () => {
   const [data, setData] = useState(dummyData.tabList);
   const [selectedTab, setSelectedTab] = useState(data[0].id);
   const [selectedCategory, setSelectedCategory] = useState(data[0].productList);
+  const navigation = useNavigation<HomeScreenProp>();
 
   return (
     <ScrollView
@@ -60,7 +62,9 @@ const Home = () => {
               <ScrollableCardsItem
                 {...props}
                 selectedTab={selectedTab}
-                onPress={(id: number) => setSelectedTab(id)}
+                onPress={(item: HomeProductType) => {
+                  navigation.navigate('ItemDetail', {item});
+                }}
                 lastItem={props.index === selectedCategory.length - 1}
               />
             )}
@@ -163,27 +167,27 @@ function OfferSection() {
     </View>
   );
 }
-
 interface IScrollableCardsItem {
-  item: {
-    productId: number;
-    productName: string;
-    price: number;
-    image: ImageSourcePropType;
-  };
+  item: HomeProductType;
   index: number;
   selectedTab: number;
-  onPress: (id: number) => void;
+  onPress: (item: HomeProductType) => void;
   lastItem: boolean;
 }
 
-function ScrollableCardsItem({item, index, lastItem}: IScrollableCardsItem) {
+function ScrollableCardsItem({
+  item,
+  index,
+  lastItem,
+  onPress,
+}: IScrollableCardsItem) {
   return (
     <TouchableOpacity
       style={{
         marginLeft: SIZES.padding,
         marginRight: lastItem ? SIZES.padding : undefined,
-      }}>
+      }}
+      onPress={() => onPress(item)}>
       <ImageBackground
         source={item.image}
         resizeMode="cover"
